@@ -65,8 +65,6 @@ public class Spliter {
     public static void main(String[] args) throws IOException {
         Spliter s = new Spliter();
         File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
-        System.out.println(s.countChars(newFile));
-        System.out.println(s.countLines(newFile));
         s.parserByLines(newFile, 6);
 
     }

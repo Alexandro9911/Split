@@ -15,7 +15,7 @@ public class SpliterTest {
     @Before
     public void create() {
         s = new Spliter();
-        newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
+        newFile =  new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
     }
 
     @Test
