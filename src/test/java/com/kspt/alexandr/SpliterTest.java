@@ -20,15 +20,11 @@ public class SpliterTest {
 
     @Test
     public void countLines() throws IOException {
-        s = new Spliter();
-        newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
         assertEquals(14, s.countLines(newFile));
     }
 
     @Test
     public void countChars() throws IOException {
-        s =new Spliter();
-        newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
         assertEquals(124, s.countChars(newFile));
     }
 }
