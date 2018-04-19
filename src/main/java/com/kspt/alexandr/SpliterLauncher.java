@@ -13,44 +13,48 @@ public class SpliterLauncher {
         ArrayList<String> list = new ArrayList<String>();
         Collections.addAll(list, args);
         Flags flags = new Flags();
-        //if (!list.get(1).equals("split") || !list.get(1).equals("Split")) throw new NoSuchElementException();
-        if (list.get(1).equals("-d")) {
-            flags.setD();
-        }
-        if ((!list.get(2).equals("-i") && !list.get(2).equals("-c") && !list.get(2).equals("-n")) ||
-                (list.get(2).equals("-i") && list.get(2).equals("-c")) ||
-                (list.get(2).equals("-i") && list.get(2).equals("-n")) ||
-                (list.get(2).equals("-n") && list.get(2).equals("-c"))) System.out.println("only one Flag can be used");
-        if (list.get(2).equals("-i")) {
-            flags.setI();
-            if (list.get(3).equals("")) flags.setNum(100);
-            flags.setNum(Integer.parseInt(list.get(3)));
-        }
-        if (list.get(2).equals("-c")) {
-            if (list.get(3).equals("")) throw new NoSuchElementException();
-            flags.setC();
-            flags.setNum(Integer.parseInt(list.get(3)));
-        }
-        if (list.get(2).equals("-n")) {
-            if (list.get(3).equals("")) throw new NoSuchElementException();
-            flags.setN();
-            flags.setNum(Integer.parseInt(list.get(3)));
-        }
-        if (!list.get(4).equals("-o")) throw new NoSuchElementException();
-        else {
-            if (list.get(5).equals("")) {
+        for (String arg : list) {
+            if (!list.get(0).equals("split")) throw new NoSuchElementException();
+            if (arg.equals("-o")) {
                 flags.setO();
-                flags.setOutputFileName("X");
+                if (list.get(list.indexOf(arg) + 1).equals("")) {
+                    flags.setOutputFileName("x");
+                }
+                if (list.get(list.indexOf(arg) + 1).equals("-")) {
+                    if (list.get(list.size() - 1).equals("")) throw new NoSuchElementException();
+                    flags.setOutputFileName(list.get(list.size() - 1));
+                }
+                if (list.get(list.indexOf(arg) + 1).equals(list.get(list.indexOf(arg) + 1))) {
+                    flags.setOutputFileName(list.get(list.indexOf(arg) + 1));
+                }
             }
-            if (list.get(5).equals("-")) {
-                flags.setO();
-                flags.setOutputFileName(flags.inputFileName);
+            if (arg.equals("-d")) {
+                flags.setD();
             }
-            flags.setO();
-            flags.setOutputFileName(list.get(5));
+            if (arg.equals("-i")) {
+                flags.setI();
+                if (list.get(list.indexOf(arg) + 1).equals("-o")) {
+                    flags.setNum(100);
+                } else {
+                    flags.setNum(Integer.parseInt(list.get(list.indexOf(arg) + 1)));
+                }
+            }
+            if (arg.equals("-c")) {
+                flags.setC();
+                flags.setNum(Integer.parseInt(list.get(list.indexOf(arg) + 1)));
+            }
+            if (arg.equals("-n")) {
+                flags.setN();
+                flags.setNum(Integer.parseInt(list.get(list.indexOf(arg) + 1)));
+            }
+            if (arg.matches("[1234567890]")) {
+                flags.setNum(Integer.parseInt(arg));
+            }
+            if (list.get(list.size() - 1).equals("")) throw new NoSuchElementException();
+            else {
+                flags.setInputFileName(list.get(list.size() - 1));
+            }
         }
-        if (list.get(6).equals("")) throw new NoSuchElementException();
-        flags.setInputFileName(list.get(6));
         flags.SplitText();
         in.close();
 
