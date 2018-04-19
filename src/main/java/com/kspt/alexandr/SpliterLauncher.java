@@ -3,7 +3,6 @@ package com.kspt.alexandr;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SpliterLauncher {
@@ -14,18 +13,26 @@ public class SpliterLauncher {
         Collections.addAll(list, args);
         Flags flags = new Flags();
         for (String arg : list) {
-            if (!list.get(0).equals("split")) throw new NoSuchElementException();
+            if (!list.get(0).equals("split")) {
+                System.out.println("wrong name of command");
+                System.exit(0);
+            }
+            if (list.get(list.size() - 1).equals("")) {
+                System.out.println("field inputFile is empty");
+                System.exit(0);
+            } else {
+                flags.setInputFileName(list.get(list.size() - 1));
+            }
             if (arg.equals("-o")) {
                 flags.setO();
-                if (list.get(list.indexOf(arg) + 1).equals("")) {
-                    flags.setOutputFileName("x");
-                }
                 if (list.get(list.indexOf(arg) + 1).equals("-")) {
-                    if (list.get(list.size() - 1).equals("")) throw new NoSuchElementException();
-                    flags.setOutputFileName(list.get(list.size() - 1));
-                }
-                if (list.get(list.indexOf(arg) + 1).equals(list.get(list.indexOf(arg) + 1))) {
-                    flags.setOutputFileName(list.get(list.indexOf(arg) + 1));
+                    flags.setOutputFileName(flags.inputFileName);
+                } else {
+                    if (list.get(list.indexOf(arg) + 1).equals(flags.inputFileName)) {
+                        flags.setOutputFileName("x");
+                    } else {
+                        flags.setOutputFileName(list.get(list.indexOf(arg) + 1));
+                    }
                 }
             }
             if (arg.equals("-d")) {
@@ -47,16 +54,12 @@ public class SpliterLauncher {
                 flags.setN();
                 flags.setNum(Integer.parseInt(list.get(list.indexOf(arg) + 1)));
             }
-            if (arg.matches("[1234567890]")) {
-                flags.setNum(Integer.parseInt(arg));
-            }
-            if (list.get(list.size() - 1).equals("")) throw new NoSuchElementException();
-            else {
-                flags.setInputFileName(list.get(list.size() - 1));
-            }
+        }
+        if ((flags.i && flags.n && flags.c) || (flags.i && flags.n) || (flags.i && flags.c) || (flags.n && flags.c)) {
+            System.out.println("only one flag can be used");
+            System.exit(0);
         }
         flags.SplitText();
         in.close();
-
     }
 }
