@@ -19,12 +19,11 @@ public class SpliterTest {
     }
 
     @Test
-    public void countLines() throws IOException {
-        assertEquals(14, s.countLines(newFile));
-    }
-
-    @Test
-    public void countChars() throws IOException {
-        assertEquals(124, s.countChars(newFile));
+    public void parseByLines() throws IOException{
+        s.parseByLines(newFile, 6, "name", true);
+        boolean first = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\name1").exists();
+        boolean second = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\name2").exists();
+        boolean third = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\name3").exists();
+        assertEquals(true, first && second && third );
     }
 }

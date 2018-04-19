@@ -1,71 +1,106 @@
 package com.kspt.alexandr;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Spliter {
+    public String inputFilename;
+    public String outputFileName;
+    public File inputFile;
+    public File outputFile;
+    public int linesInFile;
+    public int charsInFile;
+    public int sizeOfFile;
 
-    int countLines(File file) throws IOException {
-        InputStream is = new BufferedInputStream(new FileInputStream(file));
-        try {
-            byte[] c = new byte[1024];
-            int counter = 0;
-            int readChars = 0;
-            boolean empty = true;
-            while ((readChars = is.read(c)) != -1) {
-                empty = false;
-                for (int i = 0; i < readChars; ++i) {
-                    if (c[i] == '\n') {
-                        ++counter;
-                    }
-                }
-            }
-            return (counter == 0 && !empty) ? 1 : counter;
-        } finally {
-            is.close();
-        }
+    public void setInputFilename(String inputFilename) {
+        this.inputFilename = inputFilename;
     }
 
-    int countChars(File file) throws IOException {
-        FileInputStream in = new FileInputStream(file);
-        byte[] array = new byte[in.available()];
-        in.read(array);
-        String text = new String(array);
-        int count = 0;
-        for (char ch : text.toCharArray()) {
-            if (!Character.isWhitespace(ch)) {
-                count++;
-            }
-        }
-        return count;
+    public void setOutputFileName(String outputFileName) {
+        this.outputFileName = outputFileName;
     }
 
+    public void setInputFile(File inputFile) {
+        this.inputFile = inputFile;
+    }
 
-    public void parserByLines(File file, int lines) throws IOException {
-        int size = countLines(file);
-        int parts = size / lines;
-        if (size % lines != 0) {
-            parts++;
-        }
-        int counter = 0;
-        for (int i = 0; i != parts; i++) {
-            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\ofile" + (i + 1));
-            Scanner scanner = new Scanner(file);
+    public void setOutputFile(File outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public void setLinesInFile(int linesInFile) {
+        this.linesInFile = linesInFile;
+    }
+
+    public void setCharsInFile(int charsInFile) {
+        this.charsInFile = charsInFile;
+    }
+
+    public void setSizeOfFile(int sizeOfFile) {
+        this.sizeOfFile = sizeOfFile;
+    }
+
+    public void parseByLines(File file, int lines, String name, boolean option) throws IOException {
+        Scanner scanner = new Scanner(file);
+        String prefix = "";
+        List<Character> alph = makeAlph();
+
+        for (int i = 0; scanner.hasNextLine(); i++) {
+            if (option) {
+                prefix = Integer.toString(i + 1);
+            } else {
+                prefix = alph.get(0).toString() + alph.get(i);
+            }
+            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\" + name + prefix);
             FileWriter fr = new FileWriter(newFile);
             String line = "";
             for (int j = 0; j != lines; j++) {
-                counter++;
+                if (!scanner.hasNextLine()) break;
                 line = scanner.nextLine();
-                fr.write(line + " ");
+                fr.write(line + "\n");
             }
-            counter = 0;
             fr.close();
         }
+        scanner.close();
     }
+
+    public void parseByChars(File file, int chars) throws IOException {
+        Scanner scanner = new Scanner(file);
+        for (int i = 0; scanner.hasNext(); i++) {
+            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\chars" + (i + 1));
+            FileWriter fr = new FileWriter(newFile);
+            char[] ch;
+            for (int j = 0; j != chars; j++) {
+                if (!scanner.hasNext()) break;
+                ch = scanner.next().toCharArray();
+
+                fr.write(ch.length + "\n");
+            }
+            fr.close();
+        }
+        scanner.close();
+    }
+
+    public void parseBySize(File inp, int size) throws IOException {
+        //
+    }
+
 
     public static void main(String[] args) throws IOException {
         Spliter s = new Spliter();
-        File newFile = new  File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
-        s.parserByLines(newFile, 6);
+        File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
+        s.parseByLines(newFile, 6, "FileName", false);
+        //  File newFile1 = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\FileForChar");
+        // s.parseByChars(newFile1, 1);
+    }
 
+    private List<Character> makeAlph() {
+        List<Character> alph = new ArrayList<Character>();
+        for (char i = '\u0430'; i <= '\u044f'; i++) {
+            alph.add(i);
+        }
+        return alph;
     }
 }
