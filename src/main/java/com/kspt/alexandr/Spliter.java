@@ -6,54 +6,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Spliter {
-    public String inputFilename;
-    public String outputFileName;
-    public File inputFile;
-    public File outputFile;
-    public int linesInFile;
-    public int charsInFile;
-    public int sizeOfFile;
-
-    public void setInputFilename(String inputFilename) {
-        this.inputFilename = inputFilename;
-    }
-
-    public void setOutputFileName(String outputFileName) {
-        this.outputFileName = outputFileName;
-    }
-
-    public void setInputFile(File inputFile) {
-        this.inputFile = inputFile;
-    }
-
-    public void setOutputFile(File outputFile) {
-        this.outputFile = outputFile;
-    }
-
-    public void setLinesInFile(int linesInFile) {
-        this.linesInFile = linesInFile;
-    }
-
-    public void setCharsInFile(int charsInFile) {
-        this.charsInFile = charsInFile;
-    }
-
-    public void setSizeOfFile(int sizeOfFile) {
-        this.sizeOfFile = sizeOfFile;
-    }
 
     public void parseByLines(File file, int lines, String name, boolean option) throws IOException {
         Scanner scanner = new Scanner(file);
-        String prefix = "";
-        List<Character> alph = makeAlph();
-
+        char ch1 = 'a';
+        char ch2 = 'a';
+        String suffix = "";
         for (int i = 0; scanner.hasNextLine(); i++) {
-            if (option) {
-                prefix = Integer.toString(i + 1);
-            } else {
-                prefix = alph.get(0).toString() + alph.get(i);
-            }
-            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\" + name + prefix);
+            File newFile = new File("C:\\idea\\" + name + nameCreator(option,i));
             FileWriter fr = new FileWriter(newFile);
             String line = "";
             for (int j = 0; j != lines; j++) {
@@ -65,42 +25,84 @@ public class Spliter {
         }
         scanner.close();
     }
+    public void parseBySize(File file, int size, String name, boolean option) throws IOException {
+        long sizeCounter = 0;
+        char ch1 = 'a';
+        char ch2 = 'a';
+        String suffix = "";
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes =  new byte[inputStream.available()];
+        
 
-    public void parseByChars(File file, int chars) throws IOException {
+    }
+
+
+    public void parseByChars(File file, int chars, String name, boolean option) throws IOException {
+        int counterForName = 0;
+        char ch1 = 'a';
+        char ch2 = 'a';
+        String suffix = "";
         Scanner scanner = new Scanner(file);
-        for (int i = 0; scanner.hasNext(); i++) {
-            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\chars" + (i + 1));
-            FileWriter fr = new FileWriter(newFile);
-            char[] ch;
-            for (int j = 0; j != chars; j++) {
-                if (!scanner.hasNext()) break;
-                ch = scanner.next().toCharArray();
-
-                fr.write(ch.length + "\n");
+        for (int n = 0; scanner.hasNextLine(); n++) {
+            counterForName++;
+            String line = scanner.nextLine();
+            if (line.length() <= chars) {
+                File newFile = new File("C:\\idea\\"+ name + nameCreator(option, counterForName));
+                FileWriter fw = new FileWriter(newFile);
+                fw.write(line);
+                fw.close();
+            } else {
+                List<String> listOfStr = new ArrayList<String>();
+                int num = line.length() / chars;
+                if (line.length() % chars != 0) {
+                    num++;
+                }
+                int last = chars;
+                int first = 0;
+                for (int s = 0; s!= num ;s++ ) {
+                    listOfStr.add(line.substring(first, last));
+                    first = last;
+                    if(line.substring(last).length()> chars){
+                        last = last+chars;
+                    } else { last = line.length(); }
+                }
+                for (String string : listOfStr) {
+                    counterForName++;
+                    File newFile = new File("C:\\idea\\"+ name + nameCreator(option, counterForName));
+                    FileWriter fw = new FileWriter(newFile);
+                    fw.write(string);
+                    fw.close();
+                }
             }
-            fr.close();
         }
         scanner.close();
     }
+    public String nameCreator(boolean option, int iteration){
+        char ch1 = 'a';
+        char ch2 = 'a';
+        String suffix = "";
+        if (option) {
+            suffix = Integer.toString(iteration + 1);
+        } else {
 
-    public void parseBySize(File inp, int size) throws IOException {
-        //
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        Spliter s = new Spliter();
-        File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\fileread");
-        s.parseByLines(newFile, 6, "FileName", false);
-        //  File newFile1 = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\input\\FileForChar");
-        // s.parseByChars(newFile1, 1);
-    }
-
-    private List<Character> makeAlph() {
-        List<Character> alph = new ArrayList<Character>();
-        for (char i = '\u0430'; i <= '\u044f'; i++) {
-            alph.add(i);
+            if (iteration == 0) {
+                suffix += ch1;
+                suffix += ch2;
+            }
+            if (iteration == 26) {
+                suffix = "";
+                ch2 = 'a';
+                ch1++;
+                suffix += ch1;
+                suffix += ch2;
+            }
+            if (iteration > 0 && iteration < 26) {
+                suffix = "";
+                ch2 += iteration -1;
+                suffix += ch1;
+                suffix += ch2;
+            }
         }
-        return alph;
+        return suffix;
     }
 }
