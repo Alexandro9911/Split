@@ -5,6 +5,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
+
 public class SpliterLauncher {
 
     @Option(name = "-d", required = true, usage = "type of file name")
@@ -16,7 +18,7 @@ public class SpliterLauncher {
     @Option(name = "-c", required = true, usage = "chars in file")
     private int chars;
 
-    @Option(name = "-n", required = true, usage = " size of files")
+    @Option(name = "-n", required = true, usage = "size of files")
     private int size;
 
     @Option(name = "-o", required = true, usage = "output file name")
@@ -25,14 +27,19 @@ public class SpliterLauncher {
     @Argument(required = true, metaVar = "InputName", usage = "Input file name")
     private String inputFileName;
 
-    public String getOutputFileName() { return outputFileName; }
+    public String getOutputFileName() {
+        return outputFileName;
+    }
 
-    public String getInputFileName() { return inputFileName; }
+    public String getInputFileName() {
+        return inputFileName;
+    }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         new SpliterLauncher().launch(args);
     }
-    private void launch(String[] args){
+
+    private void launch(String[] args) throws IOException{
         CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(args);
@@ -44,5 +51,6 @@ public class SpliterLauncher {
         }
         System.out.println(chars);
         Spliter spl = new Spliter();
+
     }
 }
