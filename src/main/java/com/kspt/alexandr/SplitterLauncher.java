@@ -36,7 +36,7 @@ public class SplitterLauncher {
         Flags flags = new Flags();
         if (inputFileName == null) throw new IllegalArgumentException();
         flags.setInputFileName(getInputFileName());
-        if (prefix) {
+        if (prefix ) {
             flags.setD();
         }
         if (lines != -1) {

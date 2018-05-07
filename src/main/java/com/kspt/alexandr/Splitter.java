@@ -50,7 +50,7 @@ public class Splitter {
             counterForName++;
             String line = scanner.nextLine();
             if (line.length() <= chars) {
-                File newFile = new File(name + nameCreator(option, counterForName + 1) + ".txt");
+                File newFile = new File(name + nameCreator(option, counterForName + 1 ) + ".txt");
                 FileWriter fw = new FileWriter(newFile);
                 fw.write(line);
                 fw.close();

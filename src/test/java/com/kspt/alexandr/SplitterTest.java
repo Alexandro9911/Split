@@ -54,7 +54,7 @@ public class SplitterTest {
 
     @Test
     public void parseByLinesTest() throws IOException {
-        s.parseByLines(inputFileName, 6, outputFileNameForLines, false);
+        s.parseByLines(inputFileName, 6,  outputFileNameForLines, false);
         s.parseByLines(inputFileName, 6, outputFileNameForLines, true);
         List<File> expected = new ArrayList<File>();
         List<File> actual = new ArrayList<File>();

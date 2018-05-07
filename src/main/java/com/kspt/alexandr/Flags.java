@@ -48,7 +48,7 @@ public class Flags {
             spl.parseByChars(inputFileName, num, outputFileName, d);
         }
         if (n) {
-            spl.parseByNum(inputFileName, num, outputFileName, d);
+            spl.parseByNum(inputFileName,  num, outputFileName, d);
         }
     }
 }
