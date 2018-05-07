@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Spliter {
+public class Splitter {
+
     /**
-     * @param file   file with text
+     * @param inp    name of file with text
      * @param lines  quantity of lines in one outputFile
      * @param name   name of Outputfile
      * @param option true or fals. its for name of outputFile
@@ -15,17 +16,17 @@ public class Spliter {
      *               if false - creating suffis like <name>aa..ab..ac..
      * @throws IOException
      */
-    public void parseByLines(String file, int lines, String name, boolean option) throws IOException {
+    public void parseByLines(String inp, int lines, String name, boolean option) throws IOException {
+        File file = new File(inp);
         Scanner scanner = new Scanner(file);
         for (int i = 0; scanner.hasNextLine(); i++) {
-            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\" +
-                    "output\\" + name + nameCreator(option, i + 1));
+            File newFile = new File(name + nameCreator(option, i + 1) + ".txt");
             FileWriter fr = new FileWriter(newFile);
             String line = "";
             for (int j = 0; j != lines; j++) {
                 if (!scanner.hasNextLine()) break;
                 line = scanner.nextLine();
-                fr.write(line + "\n");
+                fr.write(line + "\r\n");
             }
             fr.close();
         }
@@ -33,7 +34,7 @@ public class Spliter {
     }
 
     /**
-     * @param file   file with text
+     * @param inp    name of file with text
      * @param chars  quantity of chars in one outputFile
      * @param name   name of Outputfile
      * @param option true or fals. its for name of outputFile
@@ -41,15 +42,15 @@ public class Spliter {
      *               if false - creating suffis like <name>aa..ab..ac..
      * @throws IOException
      */
-    public void parseByChars(String file, int chars, String name, boolean option) throws IOException {
+    public void parseByChars(String inp, int chars, String name, boolean option) throws IOException {
         int counterForName = 0;
+        File file = new File(inp);
         Scanner scanner = new Scanner(file);
         for (int n = 0; scanner.hasNextLine(); n++) {
             counterForName++;
             String line = scanner.nextLine();
             if (line.length() <= chars) {
-                File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\" +
-                        "output\\" + name + nameCreator(option, counterForName + 1));
+                File newFile = new File(name + nameCreator(option, counterForName + 1) + ".txt");
                 FileWriter fw = new FileWriter(newFile);
                 fw.write(line);
                 fw.close();
@@ -72,8 +73,7 @@ public class Spliter {
                 }
                 for (String string : listOfStr) {
                     counterForName++;
-                    File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\" +
-                            "output\\" + name + nameCreator(option, counterForName + 1));
+                    File newFile = new File(name + nameCreator(option, counterForName + 1));
                     FileWriter fw = new FileWriter(newFile);
                     fw.write(string);
                     fw.close();
@@ -84,44 +84,20 @@ public class Spliter {
     }
 
     /**
-     * Method for another Method "parseByNum"
-     * this method counts size of outputFiles
-     *
-     * @param file file with text
-     * @param num  quantity of outputFiles
-     * @return size of outputFiles
-     */
-    double automaticSize(String file, int num) {
-        long fileSize = file.length();
-        System.out.println("sizeOfFile = " + fileSize);
-        long last = fileSize % num;
-        if (last == 0) {
-            double sizeOfPart;
-            sizeOfPart = fileSize / num;
-            System.out.println("sizeOfpart = " + sizeOfPart);
-            return sizeOfPart;
-        } else {
-            double sizeOfPart = fileSize / num;
-            sizeOfPart += last * 0.1;
-            System.out.println("sizeOfpart = " + sizeOfPart);
-            return sizeOfPart;
-        }
-    }
-
-    /**
-     * @param file  file with text
-     * @param num  quantity of outputFiles
-     * @param name  nabe of Outputfile
+     * @param inp    file with text
+     * @param num    quantity of outputFiles
+     * @param name   nabe of Outputfile
      * @param option true or fals. its for name of outputFile
      *               if true - creating suffixs like <name>1...10...
      *               if false - creating suffis like <name>aa..ab..ac..
      * @throws IOException
      */
-    public void parseByNum(String file, int num, String name, boolean option) throws IOException {
-        double sizeOfPart = automaticSize(file, num);
+    public void parseByNum(String inp, int num, String name, boolean option) throws IOException {
+        File file = new File(inp);
+        double sizeOfPart = automaticSize(inp, num);
         FileInputStream in = new FileInputStream(file);
         for (int i = 1; i <= num; i++) {
-            File newFile = new File("C:\\Users\\LEGION\\IdeaProjects\\Split\\src\\main\\resources\\output\\" + name + nameCreator(option, i));
+            File newFile = new File(name + nameCreator(option, i) + ".txt");
             FileOutputStream out = new FileOutputStream(newFile);
             long read = 0;
             int b;
@@ -139,7 +115,7 @@ public class Spliter {
     /**
      * @param option if true - creating suffixs like <name>1...10...
      *               if false - creating suffis like <name>aa..ab..ac..
-     * @param i iteration
+     * @param i      iteration
      * @return suffix of outputFile
      */
     public String nameCreator(boolean option, int i) {
@@ -147,7 +123,7 @@ public class Spliter {
         char ch2 = 'a';
         String suffix = "";
         if (option) {
-            suffix = Integer.toString(i + 1);
+            suffix = Integer.toString(i);
         } else {
             if (i - 1 == 0) {
                 suffix += ch1;
@@ -168,5 +144,28 @@ public class Spliter {
             }
         }
         return suffix;
+    }
+
+    /**
+     * Method for another Method "parseByNum"
+     * this method counts size of outputFiles
+     *
+     * @param inp name of file with text
+     * @param num quantity of outputFiles
+     * @return size of outputFiles
+     */
+    double automaticSize(String inp, int num) {
+        File file = new File(inp);
+        long fileSize = file.length();
+        long last = fileSize % num;
+        if (last == 0) {
+            double sizeOfPart;
+            sizeOfPart = fileSize / num;
+            return sizeOfPart;
+        } else {
+            double sizeOfPart = fileSize / num;
+            sizeOfPart += last * 0.1;
+            return sizeOfPart;
+        }
     }
 }
