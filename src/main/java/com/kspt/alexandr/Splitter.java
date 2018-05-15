@@ -50,7 +50,7 @@ public class Splitter {
             counterForName++;
             String line = scanner.nextLine();
             if (line.length() <= chars) {
-                File newFile = new File(name + nameCreator(option, counterForName + 1) + ".txt");
+                File newFile = new File(name + nameCreator(option, counterForName + 1));
                 FileWriter fw = new FileWriter(newFile);
                 fw.write(line);
                 fw.close();
@@ -73,7 +73,7 @@ public class Splitter {
                 }
                 for (String string : listOfStr) {
                     counterForName++;
-                    File newFile = new File(name + nameCreator(option, counterForName + 1)+ ".txt");
+                    File newFile = new File(name + nameCreator(option, counterForName + 1));
                     FileWriter fw = new FileWriter(newFile);
                     fw.write(string);
                     fw.close();
@@ -82,26 +82,6 @@ public class Splitter {
         }
         scanner.close();
     }
- /*    public  void myFun(String inp, int chars, String name, boolean option) throws IOException {
-        File file = new File(inp);
-        Scanner scanner = new Scanner(file);
-        int counter = 0;
-        while(scanner.hasNext()){
-            counter++;
-            String line = scanner.nextLine();
-            char[] chArr = line.toCharArray();
-            if (chArr.length == chars){
-                File newFile = new File(name + nameCreator(option,counter)+ ".txt");
-                FileWriter fileWriter = new FileWriter(newFile);
-                fileWriter.write(line);
-                fileWriter.close();
-            } else{
-                if (chArr.length < chars){
-
-                }
-            }
-        }
-     } */
 
     /**
      * @param inp    file with text
@@ -197,4 +177,12 @@ public class Splitter {
             return sizeOfPart;
         }
     }
+
+    public static void main(String[] args) throws IOException {
+        Splitter s = new Splitter();
+       // s.parseByLines("fileread", 6, "FileName", false);
+         //s.parseByChars("fileread", 20, "chars", false);
+       // s.parseByNum("fileread", 3, "filesNum", false);
+    }
+
 }
