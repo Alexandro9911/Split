@@ -50,7 +50,7 @@ public class Splitter {
             counterForName++;
             String line = scanner.nextLine();
             if (line.length() <= chars) {
-                File newFile = new File(name + nameCreator(option, counterForName + 1 ) + ".txt");
+                File newFile = new File(name + nameCreator(option, counterForName + 1) + ".txt");
                 FileWriter fw = new FileWriter(newFile);
                 fw.write(line);
                 fw.close();
@@ -73,7 +73,7 @@ public class Splitter {
                 }
                 for (String string : listOfStr) {
                     counterForName++;
-                    File newFile = new File(name + nameCreator(option, counterForName + 1));
+                    File newFile = new File(name + nameCreator(option, counterForName + 1)+ ".txt");
                     FileWriter fw = new FileWriter(newFile);
                     fw.write(string);
                     fw.close();
@@ -82,6 +82,26 @@ public class Splitter {
         }
         scanner.close();
     }
+ /*    public  void myFun(String inp, int chars, String name, boolean option) throws IOException {
+        File file = new File(inp);
+        Scanner scanner = new Scanner(file);
+        int counter = 0;
+        while(scanner.hasNext()){
+            counter++;
+            String line = scanner.nextLine();
+            char[] chArr = line.toCharArray();
+            if (chArr.length == chars){
+                File newFile = new File(name + nameCreator(option,counter)+ ".txt");
+                FileWriter fileWriter = new FileWriter(newFile);
+                fileWriter.write(line);
+                fileWriter.close();
+            } else{
+                if (chArr.length < chars){
+
+                }
+            }
+        }
+     } */
 
     /**
      * @param inp    file with text
@@ -125,20 +145,27 @@ public class Splitter {
         if (option) {
             suffix = Integer.toString(i);
         } else {
-            if (i - 1 == 0) {
-                suffix += ch1;
-                suffix += ch2;
+            if (i -1 == 1){
+                suffix = "aa";
             }
-            if (i - 1 < 26 && i - 1 > 0) {
-                suffix = "";
-                ch2 += i - 1;
-                suffix += ch1;
-                suffix += ch2;
+            if ((i - 1) % 26 == 0) {
+                if (i == 1){
+                    suffix = "aa";
+                } else {
+                    suffix = "";
+                    ch1++;
+                    ch2 = 'a';
+                    suffix += ch1;
+                    suffix += ch2;
+                }
             }
-            if (i - 1 == 26) {
+            if (i - 1 % 26 != 0) {
                 suffix = "";
-                ch1++;
-                ch2 = 'a';
+                if((i-1) / 26 > 0){
+                    ch1 = 'a';
+                    ch1+= (i-1) / 26;
+                }
+                ch2 += (i-1) % 26;
                 suffix += ch1;
                 suffix += ch2;
             }
@@ -163,8 +190,10 @@ public class Splitter {
             sizeOfPart = fileSize / num;
             return sizeOfPart;
         } else {
-            double sizeOfPart = fileSize / num;
-            sizeOfPart += last * 0.1;
+            double sizeOfPart = 0;
+            double div = fileSize / num;
+            double mod = (fileSize % num) * 0.1;
+            sizeOfPart = div + mod;
             return sizeOfPart;
         }
     }

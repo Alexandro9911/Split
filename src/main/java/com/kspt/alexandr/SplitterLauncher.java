@@ -32,11 +32,12 @@ public class SplitterLauncher {
     public static void main(String[] args) throws IOException {
         new SplitterLauncher().launch(args);
     }
+
     private void launch(String[] args) throws IOException {
         Flags flags = new Flags();
         if (inputFileName == null) throw new IllegalArgumentException();
         flags.setInputFileName(getInputFileName());
-        if (prefix ) {
+        if (prefix) {
             flags.setD();
         }
         if (lines != -1) {
@@ -61,6 +62,9 @@ public class SplitterLauncher {
             flags.setOutputFileName(outputFileName);
         }
         if (lines != -1 && chars != -1 && numr != -1) throw new IllegalArgumentException();
+        if (lines != -1 && chars != -1) throw new IllegalArgumentException();
+        if (chars != -1 && numr != -1) throw new IllegalArgumentException();
+        if (lines != -1 && numr != -1) throw new IllegalArgumentException();
         try {
             flags.splitText();
         } catch (IllegalArgumentException ex) {
