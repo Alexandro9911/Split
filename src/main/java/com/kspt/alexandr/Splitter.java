@@ -125,11 +125,8 @@ public class Splitter {
         if (option) {
             suffix = Integer.toString(i);
         } else {
-            if (i -1 == 1){
-                suffix = "aa";
-            }
             if ((i - 1) % 26 == 0) {
-                if (i == 1){
+                if (i == 1) {
                     suffix = "aa";
                 } else {
                     suffix = "";
@@ -138,14 +135,13 @@ public class Splitter {
                     suffix += ch1;
                     suffix += ch2;
                 }
-            }
-            if (i - 1 % 26 != 0) {
+            } else {
                 suffix = "";
-                if((i-1) / 26 > 0){
+                if ((i - 1) / 26 > 0) {
                     ch1 = 'a';
-                    ch1+= (i-1) / 26;
+                    ch1 += (i - 1) / 26;
                 }
-                ch2 += (i-1) % 26;
+                ch2 += (i - 1) % 26;
                 suffix += ch1;
                 suffix += ch2;
             }
@@ -180,9 +176,9 @@ public class Splitter {
 
     public static void main(String[] args) throws IOException {
         Splitter s = new Splitter();
-       // s.parseByLines("fileread", 6, "FileName", false);
-         //s.parseByChars("fileread", 20, "chars", false);
-       // s.parseByNum("fileread", 3, "filesNum", false);
+        // s.parseByLines("fileread", 6, "FileName", false);
+        //s.parseByChars("fileread", 20, "chars", false);
+        // s.parseByNum("fileread", 3, "filesNum", false);
     }
 
 }
