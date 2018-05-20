@@ -14,7 +14,7 @@ public class Splitter {
      * @param option true or fals. its for name of outputFile
      *               if true - creating suffixs like <name>1...10...
      *               if false - creating suffis like <name>aa..ab..ac..
-     * @throws IOException
+     * @throws IOException IOException
      */
     public void parseByLines(String inp, int lines, String name, boolean option) throws IOException {
         File file = new File(inp);
@@ -22,7 +22,7 @@ public class Splitter {
         for (int i = 0; scanner.hasNextLine(); i++) {
             File newFile = new File(name + nameCreator(option, i + 1) + ".txt");
             FileWriter fr = new FileWriter(newFile);
-            String line = "";
+            String line;
             for (int j = 0; j != lines; j++) {
                 if (!scanner.hasNextLine()) break;
                 line = scanner.nextLine();
@@ -40,7 +40,7 @@ public class Splitter {
      * @param option true or fals. its for name of outputFile
      *               if true - creating suffixs like <name>1...10...
      *               if false - creating suffis like <name>aa..ab..ac..
-     * @throws IOException
+     * @throws IOException IOException
      */
     public void parseByChars(String inp, int chars, String name, boolean option) throws IOException {
         int counterForName = 0;
@@ -90,11 +90,11 @@ public class Splitter {
      * @param option true or fals. its for name of outputFile
      *               if true - creating suffixs like <name>1...10...
      *               if false - creating suffis like <name>aa..ab..ac..
-     * @throws IOException
+     * @throws IOException IOException
      */
     public void parseByNum(String inp, int num, String name, boolean option) throws IOException {
         File file = new File(inp);
-        double sizeOfPart = automaticSize(inp, num);
+        double sizeOfPart = automaticSize(file.length(), num);
         FileInputStream in = new FileInputStream(file);
         for (int i = 1; i <= num; i++) {
             File newFile = new File(name + nameCreator(option, i) + ".txt");
@@ -121,7 +121,7 @@ public class Splitter {
     public String nameCreator(boolean option, int i) {
         char ch1 = 'a';
         char ch2 = 'a';
-        String suffix = "";
+        String suffix;
         if (option) {
             suffix = Integer.toString(i);
         } else {
@@ -157,28 +157,16 @@ public class Splitter {
      * @param num quantity of outputFiles
      * @return size of outputFiles
      */
-    double automaticSize(String inp, int num) {
-        File file = new File(inp);
-        long fileSize = file.length();
-        long last = fileSize % num;
+    double automaticSize(long inp, int num) {
+        long last = inp % num;
         if (last == 0) {
             double sizeOfPart;
-            sizeOfPart = fileSize / num;
+            sizeOfPart = inp / num;
             return sizeOfPart;
         } else {
-            double sizeOfPart = 0;
-            double div = fileSize / num;
-            double mod = (fileSize % num) * 0.1;
-            sizeOfPart = div + mod;
+            double sizeOfPart;
+            sizeOfPart = (double)inp / num;
             return sizeOfPart;
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        Splitter s = new Splitter();
-        // s.parseByLines("fileread", 6, "FileName", false);
-        //s.parseByChars("fileread", 20, "chars", false);
-        // s.parseByNum("fileread", 3, "filesNum", false);
-    }
-
 }
