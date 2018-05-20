@@ -66,6 +66,7 @@ public class SplitterTest {
     public void parseByLinesTest() throws IOException {
         List<File> expected = new ArrayList<File>();
         List<File> actual = new ArrayList<File>();
+
         List<File> actualFalse = new ArrayList<File>();
         expected.add(new File("src\\test\\java\\testResources\\outputFiles\\linesTestaa.txt"));
         expected.add(new File("src\\test\\java\\testResources\\outputFiles\\linesTestab.txt"));
