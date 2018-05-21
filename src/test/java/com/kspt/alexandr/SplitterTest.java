@@ -18,10 +18,18 @@ public class SplitterTest {
     @Before
     public void create() throws IOException {
         s = new Splitter();
-        s.parseByLines("src\\test\\java\\testResources\\inputFiles\\fileread", 6, "src\\test\\java" +
-                "\\testResources\\outputFiles\\linesTest", false);
-        s.parseByNum("src\\test\\java\\testResources\\inputFiles\\fileread",3, "src\\test\\java" +
-                "\\testResources\\outputFiles\\NumParse", false);
+        s.parseByLines("src\\test\\java\\testResources\\inputFiles\\fileread",
+                6,
+                "src\\test\\java\\testResources\\outputFiles\\linesTest",
+                false);
+        s.parseByNum("src\\test\\java\\testResources\\inputFiles\\fileread",
+                3,
+                "src\\test\\java\\testResources\\outputFiles\\NumParse",
+                false);
+        s.parseByChars("src\\test\\java\\testResources\\inputFiles\\FileForChar",
+                3,
+                "src\\test\\java\\testResources\\outputFiles\\Chars",
+                false);
     }
 
     private boolean equalsFile(List<File> expected, List<File> actual) throws IOException {
@@ -32,7 +40,7 @@ public class SplitterTest {
             Scanner scannerExpected = new Scanner(files);
             Scanner scannerActual = new Scanner(actual.get(counter));
             while (scannerActual.hasNextLine()) {
-                if(!scannerExpected.hasNextLine()){
+                if (!scannerExpected.hasNextLine()) {
                     answ = false;
                     break;
                 }
@@ -50,31 +58,15 @@ public class SplitterTest {
         }
         return answ;
     }
+
     @Test
-    public void equalsFilesTest()throws IOException{
+    public void equalsFilesTest() throws IOException {
         List<File> expected = new ArrayList<File>();
         List<File> actual = new ArrayList<File>();
         List<File> actualFalse = new ArrayList<File>();
         actual.add(new File("src\\test\\java\\testResources\\inputFiles\\TestEquals1"));
         expected.add(new File("src\\test\\java\\testResources\\inputFiles\\TestEquals2"));
         actualFalse.add(new File("src\\test\\java\\testResources\\inputFiles\\TestEquals3"));
-        assertEquals(true, equalsFile(expected,actual));
-        assertEquals(false,equalsFile(expected,actualFalse));
-    }
-
-    @Test
-    public void parseByLinesTest() throws IOException {
-        List<File> expected = new ArrayList<File>();
-        List<File> actual = new ArrayList<File>();
-
-        List<File> actualFalse = new ArrayList<File>();
-        expected.add(new File("src\\test\\java\\testResources\\outputFiles\\linesTestaa.txt"));
-        expected.add(new File("src\\test\\java\\testResources\\outputFiles\\linesTestab.txt"));
-        expected.add(new File("src\\test\\java\\testResources\\outputFiles\\linesTestac.txt"));
-        actual.add(new File("src\\test\\java\\testResources\\inputFiles\\linesaa.txt"));
-        actual.add(new File("src\\test\\java\\testResources\\inputFiles\\linesab.txt"));
-        actual.add(new File("src\\test\\java\\testResources\\inputFiles\\linesac.txt"));
-        actualFalse.add(new File("src\\test\\java\\testResources\\inputFiles\\linesaaFalse.txt"));
         assertEquals(true, equalsFile(expected, actual));
         assertEquals(false, equalsFile(expected, actualFalse));
     }
@@ -93,8 +85,61 @@ public class SplitterTest {
         assertEquals(true, str5.equals("bb"));
     }
 
+
     @Test
-    public void parseByNum()throws IOException{
+    public void parseByLinesTest() throws IOException {
+        List<File> expected = new ArrayList<File>();
+        List<File> actual = new ArrayList<File>();
+
+        List<File> actualFalse = new ArrayList<File>();
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\linesTestaa.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\linesTestab.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\linesTestac.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\linesaa.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\linesab.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\linesac.txt"));
+        actualFalse.add(new File("src\\test\\java\\testResources\\inputFiles\\linesaaFalse.txt"));
+        assertEquals(true, equalsFile(expected, actual));
+        assertEquals(false, equalsFile(expected, actualFalse));
+    }
+
+    @Test
+    public void stringParserTest() {
+        String str = "Polytech KSPT";
+        List<String> expected = new ArrayList<String>();
+        List<String> expectedFalse = new ArrayList<String>();
+        expectedFalse.add("false");
+        List<String> actual = s.stringParser(str, 10);
+        expected.add("Polytech K");
+        expected.add("SPT");
+        assertEquals(true, expected.equals(actual));
+        assertEquals(false, expectedFalse.equals(actual));
+    }
+
+    @Test
+    public void parseByCharsTest() throws IOException {
+        List<File> expected = new ArrayList<File>();
+        List<File> actual = new ArrayList<File>();
+
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\CharTest1.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\CharTest2.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\CharTest3.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\CharTest4.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\CharTest5.txt"));
+        expected.add(new File("src\\test\\java\\testResources\\inputFiles\\CharTest6.txt"));
+
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\Charsaa.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\Charsab.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\Charsac.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\Charsad.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\Charsae.txt"));
+        actual.add(new File("src\\test\\java\\testResources\\outputFiles\\Charsaf.txt"));
+
+        assertEquals(true, equalsFile(expected, actual));
+    }
+
+    @Test
+    public void parseByNum() throws IOException {
         List<File> expected = new ArrayList<File>();
         List<File> actual = new ArrayList<File>();
         List<File> actualFalse = new ArrayList<File>();
@@ -107,15 +152,7 @@ public class SplitterTest {
         actualFalse.add(new File("src\\test\\java\\testResources\\outputFiles\\NumParseaa.txt"));
         actualFalse.add(new File("src\\test\\java\\testResources\\inputFiles\\ActualFalse2.txt"));
         actualFalse.add(new File("src\\test\\java\\testResources\\outputFiles\\NumParseab.txt"));
-        assertEquals(true, equalsFile(expected,actual));
-        assertEquals(false, equalsFile(expected,actualFalse));
-    }
-
-    @Test
-    public void automaticSizeTest() {
-        assertEquals(5.0, s.automaticSize(100, 20),
-                0.0001);
-        assertEquals(3.3333333333333335, s.automaticSize(100, 30),
-                0.0001);
+        assertEquals(true, equalsFile(expected, actual));
+        assertEquals(false, equalsFile(expected, actualFalse));
     }
 }
