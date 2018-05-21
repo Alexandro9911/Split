@@ -99,6 +99,7 @@ public class SplitterTest {
         actual.add(new File("src\\test\\java\\testResources\\outputFiles\\linesab.txt"));
         actual.add(new File("src\\test\\java\\testResources\\outputFiles\\linesac.txt"));
         actualFalse.add(new File("src\\test\\java\\testResources\\inputFiles\\linesaaFalse.txt"));
+
         assertEquals(true, equalsFile(expected, actual));
         assertEquals(false, equalsFile(expected, actualFalse));
     }
