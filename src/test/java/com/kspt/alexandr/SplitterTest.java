@@ -20,7 +20,7 @@ public class SplitterTest {
         s = new Splitter();
         s.parseByLines("src\\test\\java\\testResources\\inputFiles\\fileread",
                 6,
-                "src\\test\\java\\testResources\\outputFiles\\linesTest",
+                "src\\test\\java\\testResources\\inputFiles\\linesTest",
                 false);
         s.parseByNum("src\\test\\java\\testResources\\inputFiles\\fileread",
                 3,

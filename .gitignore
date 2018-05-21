@@ -28,5 +28,5 @@ hs_err_pid*
 out
 lib
 Split.iml
-
+*src/test/java/testResources/outputFiles
 
